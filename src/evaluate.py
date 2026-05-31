@@ -32,13 +32,13 @@ def analyze_grid(grid_search, test_features, test_target):
         ascending=False
     )
 
-    test_accuracy = grid_search.score(test_features, test_target)
+    test_quality = grid_search.score(test_features, test_target)
 
-    return importance_df, test_accuracy
+    return importance_df, test_quality
 
-def show_gridsearch_analysis(importance_df, test_accuracy):
+def show_gridsearch_analysis(importance_df, test_quality):
 
-    print(f"Accuracy on test data: {test_accuracy}")
+    print(f"Quality of test data: {test_quality}")
 
     plt.figure(figsize=(10,6))
 

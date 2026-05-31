@@ -36,7 +36,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 preprocessor = preprocessing.create_preprocessor(numerical_cats, categorical_cats, ordinal_cats)
 
-pipe = preprocessing.create_pipeline(RandomForestClassifier(), preprocessor)
+pipe = preprocessing.create_pipeline(RandomForestRegressor(), preprocessor)
 
 ### Configure and run GridSearch ###
 
@@ -45,8 +45,8 @@ param_grid = {
     "modell__n_estimators": [30, 100]    
 }
 
-grid_search = training.run_grid_search(X_train, y_train, pipe, param_grid, cv=5, scoring="accuracy")
+grid_search = training.run_grid_search(X_train, y_train, pipe, param_grid, cv=5, scoring="r2")
 
-importance_df, test_accuracy = evaluate.analyze_grid(grid_search, X_test, y_test)
+importance_df, grid_quality = evaluate.analyze_grid(grid_search, X_test, y_test)
 
-evaluate.show_gridsearch_analysis(importance_df, test_accuracy)
+evaluate.show_gridsearch_analysis(importance_df, grid_quality)

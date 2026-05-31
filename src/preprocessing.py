@@ -2,11 +2,11 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler, OrdinalEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.base import ClassifierMixin
+from sklearn.base import ClassifierMixin, RegressorMixin, BaseEstimator
 from typing import Literal
 
 
-def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_strategy="constant", num_fill_value=None, cat_strategy="constant", cat_fill_value="unknown", ord_strategy="most_frequent", ord_fill_value="unknown", enc_handle_unknown: Literal["error","ignore"] = "ignore"):
+def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_strategy="median", num_fill_value=None, cat_strategy="constant", cat_fill_value="unknown", ord_strategy="most_frequent", ord_fill_value="unknown", enc_handle_unknown: Literal["error","ignore"] = "ignore"):
     numerical_pipeline = Pipeline([
     ("imputer", SimpleImputer(strategy=num_strategy, fill_value=num_fill_value)),
     ("scaler", StandardScaler())
@@ -19,7 +19,7 @@ def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_
     
     ordinal_pipeline = Pipeline([
     ("imputer", SimpleImputer(strategy=ord_strategy, fill_value=ord_fill_value)),
-    ("encoder", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=1000))
+    ("encoder", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))
     ])
 
     prepro = ColumnTransformer([
@@ -33,8 +33,8 @@ def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_
 ### Join the Pipelines ###
 
 def create_pipeline (modell, preprocessor):
-    if not isinstance(modell, ClassifierMixin):
-        raise ValueError("modell must be a classifier")
+    if not isinstance(modell, BaseEstimator):
+        raise ValueError("modell must be an sklearn estimator")
     
     pipe = Pipeline([
         ("preprocessor", preprocessor),
