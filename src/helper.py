@@ -1,4 +1,4 @@
-data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unknown")]   
+data_info = {   
     "MSSubClass": {
         "type": "cat",
         "imputer": "unknown"
@@ -7,7 +7,7 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "cat",
         "imputer": "unknown"
     },
-    "LotFrontage": {        # 2-3 Ausreißer
+    "LotFrontage": {        # 2-3 Ausreißer --- NaN: (259) vermutlich keine Straße
         "type": "num",
         "imputer": "mean"
     },
@@ -19,7 +19,7 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "cat",
         "imputer": "unknown"
     },
-    "Alley": {
+    "Alley": {              # NaN: (1369) NA
         "type": "cat",
         "imputer": "unknown"
     },
@@ -73,11 +73,11 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
     },
     "YearBuilt": {       # jünger = tendenziell besser? Bestimmte Phasen eher schlecht?
         "type": "num",
-        "imputer": "unknown"
+        "imputer": "med"
     },
     "YearRemodAdd": {       # 1950 = unknown???
         "type": "num",
-        "imputer": "unknown"
+        "imputer": "med"
     },
     "RoofStyle": {      # fast nur "hip" und "gable" --> diverse-Kategorie? 
         "type": "cat",
@@ -95,13 +95,13 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "cat",
         "imputer": "unknown"
     }, 
-    "MasVnrType": {         # sehr viele NaN, anstatt "None"
+    "MasVnrType": {         # CBlock kommt nicht vor --- NaN: (872) None
         "type": "cat",
         "imputer": "unknown"
     },
-    "MasVnrArea": {         # Sehr viele "0" und ein paar Ausreißer
+    "MasVnrArea": {         # ein paar Ausreißer --- NaN: (8) trotz 861 "0" 
         "type": "num",
-        "imputer": "unknown"
+        "imputer": "med"
     },
     "ExterQual": {          # "Po" nicht genutzt
         "type": "ord",
@@ -115,19 +115,19 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "cat",
         "imputer": "const"
     },   
-    "BsmtQual": {          # "Av" gar nicht genutzt --- No Basement ist NaN, nicht "NA"
+    "BsmtQual": {          # "Po" gar nicht genutzt --- NaN: (37) eigentlich "NA"
         "type": "ord",
         "imputer": "const"
     }, 
-    "BsmtCond": {          # "Ex" gar nicht genutzt --- No Basement ist NaN, nicht "NA"
+    "BsmtCond": {          # "Ex" gar nicht genutzt --- NaN: (37) eigentlich "NA"
         "type": "ord",
         "imputer": "const"
     },
-    "BsmtExposure": {       # No Basement ist NaN, nicht "NA"
+    "BsmtExposure": {       # NaN: (38) eigentlich "NA"
         "type": "ord",
         "imputer": "const"
     },
-    "BsmtFinType1": {       # No Basement ist NaN, nicht "NA"
+    "BsmtFinType1": {       # NaN: (37) eigentlich "NA"
         "type": "ord",
         "imputer": "const"
     },
@@ -135,7 +135,7 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "num",
         "imputer": "mean"
     },
-    "BsmtFinType2": {         # No Basement ist NaN, nicht "NA"
+    "BsmtFinType2": {       # NaN: (38) eigentlich "NA"
         "type": "ord",
         "imputer": "const"
     },
@@ -163,7 +163,7 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "ord",
         "imputer": "const"
     },
-    "Electrical": {         # ord? knifflig
+    "Electrical": {         # ord? --- 2 Kategorien < 4 entrys --- NaN: (1) 
         "type": "cat",
         "imputer": "unknown"
     },
@@ -215,19 +215,20 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "ord",
         "imputer": "const"
     },
-    "FireplaceQu": {        # no Fireplace = Nan
+    "FireplaceQu": {        # NaN: (690) eigentlich "NA"
         "type": "ord",
         "imputer": "const"
     },
-    "GarageType": {        # "NA" = Nan --- 3 Kategorien sehr selten
+    "GarageType": {        # NaN: (81) eigentlich "NA"
         "type": "cat",
         "imputer": "const"
     },  
-    "GarageYrBlt": {        # const = Jahr in dem Haus gebaut wurde?
+    "GarageYrBlt": {        # NaN: (81) 
         "type": "num",
-        "imputer": "unknown"
+        "imputer": "med",
+        "enabled": "False"
     },  
-    "GarageFinish": {       # unknown = NaN
+    "GarageFinish": {       # NaN: (81)
         "type": "ord",
         "imputer": "const"
     },
@@ -239,11 +240,11 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "num",
         "imputer": "mean"
     },
-    "GarageQual": {         # no garage = NaN
+    "GarageQual": {         # "Ex" und "Po" < 5 entrys --- NaN: (81) eigentlich "NA"
         "type": "ord",
         "imputer": "med"
     },
-    "GarageCond": {         # no garage = NaN
+    "GarageCond": {         # "Ex", "Po" und "Gd" < 10 entrys --- NaN: (81) eigentlich "NA"
         "type": "ord",
         "imputer": "med"
     },
@@ -275,21 +276,21 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
         "type": "num",
         "imputer": "const"
     },
-    "PoolQC": {             # no pool = NaN --- "TA" kommt nicht vor
+    "PoolQC": {             # "TA" kommt nicht vor --- NaN: (1453) eigentlich "NA"
         "type": "ord",
         "imputer": "const"
     },
-    "Fence": {              # "NA" = NaN
+    "Fence": {              # NaN: (1179) eigentlich "NA"
         "type": "ord",
         "imputer": "unknown"
     },
-    "MiscFeature": {        # fast alle NaN
+    "MiscFeature": {        # "Elev" kommt nicht vor --- NaN: (1406) eigentlich "NA"
         "type": "cat",
         "imputer": "unknown"
     },
     "MiscVal": {            # fast alle 0 
         "type": "num",
-        "imputer": "unknown"
+        "imputer": "med"
     },  
     "MoSold": {             # völlig bedeutungslos
         "type": "cat",
@@ -309,18 +310,19 @@ data_info = {   # class_name : [(num/cat/ord), (mean, med, min, max, const, "unk
     }
 }
 
-def sort_features():
-    cat_num = []
-    cat_cat = []
-    cat_ord = []
-    for key in data_info:
-        if data_info[key]["type"] == "num":
-            cat_num.append(key)
-        elif data_info[key]["type"][0] == "cat":
-            cat_cat.append(key)
-        elif data_info[key]["type"][0] == "ord":
-            cat_ord.append(key)
-    return cat_num, cat_cat, cat_ord
+def get_feature_by_type(type:str, data_info:dict=data_info):
+    cat_list = []
+    if type == "all":
+        for key in data_info:
+            if data_info.get("enabled", True):
+                cat_list.append(key)
+    else: 
+        for key in data_info:
+            if (data_info[key]["type"] == type) and (data_info.get("enabled", True)):
+                cat_list.append(key)
+    return cat_list
 
-def all_features():
-    return list(data_info.keys())
+def get_imputer_strat(feature:str, data_info:dict=data_info):
+    return data_info[feature]["imputer"]
+
+# "type": "num"[\r\n\s,]*"imputer": "unknown"

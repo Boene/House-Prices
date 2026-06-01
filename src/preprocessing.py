@@ -6,7 +6,7 @@ from sklearn.base import ClassifierMixin, RegressorMixin, BaseEstimator
 from typing import Literal
 
 
-def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_strategy="median", num_fill_value=None, cat_strategy="constant", cat_fill_value="unknown", ord_strategy="most_frequent", ord_fill_value="unknown", enc_handle_unknown: Literal["error","ignore"] = "ignore"):
+def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_strategy="constant", num_fill_value=0, cat_strategy="constant", cat_fill_value="Missing", ord_strategy="constant", ord_fill_value="Missing", enc_handle_unknown: Literal["error","ignore"] = "ignore"):
     numerical_pipeline = Pipeline([
     ("imputer", SimpleImputer(strategy=num_strategy, fill_value=num_fill_value)),
     ("scaler", StandardScaler())
@@ -17,7 +17,7 @@ def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_
     ("encoder", OneHotEncoder(handle_unknown=enc_handle_unknown)) 
     ])
     
-    ordinal_pipeline = Pipeline([
+    ordinal_pipeline = Pipeline([           # -1 teils problematisch, da z.B. No Fireplace besser sein kann als Poor Condition
     ("imputer", SimpleImputer(strategy=ord_strategy, fill_value=ord_fill_value)),
     ("encoder", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))
     ])

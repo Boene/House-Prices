@@ -41,7 +41,7 @@ def show_gridsearch_analysis(importance_df, test_quality):
     print(f"Quality of test data: {test_quality}")
 
     plt.figure(figsize=(10,6))
-
+    
     sns.barplot(
         x=importance_df["importance"],
         y=importance_df["feature"]

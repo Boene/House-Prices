@@ -17,13 +17,15 @@ daten = pd.read_csv("../data/train.csv")
 
 ### Define Features, Target, numerical, categorical ###
 
-all_features = helper.all_features()
+all_features = helper.get_feature_by_type("all")
 
 X = daten[all_features]
 
 y = daten["SalePrice"]
 
-numerical_cats, categorical_cats, ordinal_cats = helper.sort_features()
+numerical_cats = helper.get_feature_by_type("num")
+categorical_cats = helper.get_feature_by_type("cat")
+ordinal_cats = helper.get_feature_by_type("ord")
 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -49,4 +51,5 @@ grid_search = training.run_grid_search(X_train, y_train, pipe, param_grid, cv=5,
 
 importance_df, grid_quality = evaluate.analyze_grid(grid_search, X_test, y_test)
 
-evaluate.show_gridsearch_analysis(importance_df, grid_quality)
+
+evaluate.show_gridsearch_analysis(importance_df.head(10), grid_quality)
