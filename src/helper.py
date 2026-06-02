@@ -33,7 +33,8 @@ data_info = {
     },
     "Utilities": {      # nur 2 von 4 Optionen existieren
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["ELO", "NoSeWa", "NoSewr", "AllPub" ]
     },
     "LotConfig": {
         "type": "cat",
@@ -41,7 +42,8 @@ data_info = {
     },
     "LandSlope": {      # -1?
         "type": "ord",
-        "imputer": "med"
+        "imputer": "med",
+        "cats": ["Sev", "Mod", "Gtl"]
     },
     "Neighborhood": {       # alle sehr gleichverteilt (bedeutungslos mit 25 Optionen??)
         "type": "cat",
@@ -61,15 +63,18 @@ data_info = {
     },
     "HouseStyle": {       # 2 neue Kategorien? -> finished/unfinished
         "type": "ord",
-        "imputer": "unknown"
+        "imputer": "unknown",
+        "cats": ["1.5Unf", "2.5Unf", "1Story", "1.5Fin", "SLvl", "SFoyer", "2Story", "2.5Fin"]
     },
     "OverallQual": {        # Option "1" und "2" super selten
         "type": "ord",
-        "imputer": "med"
+        "imputer": "med",
+        "cats": ["1", "2", "3", "4", "5", "6", "7", "8", "9" , "10"]
     },
     "OverallCond": {        # med/const? + Kategorie nötig oder lin. ab. mit OverallQual?
         "type": "ord",
-        "imputer": "med"
+        "imputer": "med",
+        "cats": ["1", "2", "3", "4", "5", "6", "7", "8", "9" , "10"]
     },
     "YearBuilt": {       # jünger = tendenziell besser? Bestimmte Phasen eher schlecht?
         "type": "num",
@@ -105,11 +110,13 @@ data_info = {
     },
     "ExterQual": {          # "Po" nicht genutzt
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Po", "Fa", "TA", "Gd", "Ex"]
     },
     "ExterCond": {         # "Po" und "Ex" fast gar nicht genutzt
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Po", "Fa", "TA", "Gd", "Ex"]
     }, 
     "Foundation": {        # ord? --- "Stone" und "Wood" fast gar nicht und "Slab" wenig genutzt
         "type": "cat",
@@ -117,19 +124,23 @@ data_info = {
     },   
     "BsmtQual": {          # "Po" gar nicht genutzt --- NaN: (37) eigentlich "NA"
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Missing", "Po", "Fa", "TA", "Gd", "Ex"]
     }, 
     "BsmtCond": {          # "Ex" gar nicht genutzt --- NaN: (37) eigentlich "NA"
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Missing", "Po", "Fa", "TA", "Gd", "Ex"]
     },
     "BsmtExposure": {       # NaN: (38) eigentlich "NA"
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Missing", "No", "Mn", "Av", "Gd"]
     },
     "BsmtFinType1": {       # NaN: (37) eigentlich "NA"
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Missing", "Unf", "LwQ", "Rec", "BLQ", "ALQ", "GLQ"]
     },
     "BsmtFinSF1": {         # Großteil "0" => imputer??? --- ein Ausreißer
         "type": "num",
@@ -137,7 +148,8 @@ data_info = {
     },
     "BsmtFinType2": {       # NaN: (38) eigentlich "NA"
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Missing", "Unf", "LwQ", "Rec", "BLQ", "ALQ", "GLQ"]
     },
     "BsmtFinSF2": {         # Großteil "0" => imputer??? --- ein leichter Ausreißer
         "type": "num",
@@ -151,21 +163,24 @@ data_info = {
         "type": "num",
         "imputer": "mean"
     },
-    "Heating": {            # ord?
+    "Heating": {            
         "type": "cat",
         "imputer": "unknown"
     },
     "HeatingQC": {
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Po", "Fa", "TA", "Gd", "Ex"]
     },
-    "CentralAir": {         # Central Air besser als ohne ... ?
+    "CentralAir": {         
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["N", "Y"]
     },
     "Electrical": {         # ord? --- 2 Kategorien < 4 entrys --- NaN: (1) 
         "type": "cat",
-        "imputer": "unknown"
+        "imputer": "unknown",
+        "cats": ["FuseP", "Mix", "FuseF", "FuseA", "SBrkr"]
     },
     "1stFlrSF": {          # ein Ausreißer
         "type": "num",
@@ -192,32 +207,35 @@ data_info = {
         "imputer": "const"
     },
     "BedroomAbvGr": {
-        "type": "ord",
+        "type": "num",
         "imputer": "med"
     },
     "KitchenAbvGr": {       # 3 Ausreißer
-        "type": "ord",
+        "type": "num",
         "imputer": "med"
     },
     "KitchenQual": {        # "Po" kommt nicht vor
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Po", "Fa", "TA", "Gd", "Ex"]
     },
     "TotRmsAbvGrd": {        # 2 Ausreißer
-        "type": "ord",
-        "imputer": "const"
+        "type": "num",
+        "imputer": "med"
     },
     "Functional": {         # "Sal" kommt nicht vor
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Sal", "Sev", "Maj2", "Maj1", "Mod", "Min2", "Min1", "Typ"]
     },
     "Fireplaces": {         # 5 kleine Aureißer
-        "type": "ord",
-        "imputer": "const"
+        "type": "num",
+        "imputer": "most_frequent"
     },
     "FireplaceQu": {        # NaN: (690) eigentlich "NA"
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Missing", "Po", "Fa", "TA", "Gd", "Ex"]
     },
     "GarageType": {        # NaN: (81) eigentlich "NA"
         "type": "cat",
@@ -230,11 +248,12 @@ data_info = {
     },  
     "GarageFinish": {       # NaN: (81)
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Missing", "Unf", "RFn", "Fin"]
     },
-    "GarageCars": {         # med oder const?
-        "type": "ord",
-        "imputer": "med"
+    "GarageCars": {        
+        "type": "num",
+        "imputer": "most_frequent"
     },
     "GarageArea": {        # no garage = 0
         "type": "num",
@@ -242,15 +261,19 @@ data_info = {
     },
     "GarageQual": {         # "Ex" und "Po" < 5 entrys --- NaN: (81) eigentlich "NA"
         "type": "ord",
-        "imputer": "med"
+        "imputer": "const",
+        "cats": ["Missing", "Po", "Fa", "TA", "Gd", "Ex"]
     },
     "GarageCond": {         # "Ex", "Po" und "Gd" < 10 entrys --- NaN: (81) eigentlich "NA"
         "type": "ord",
-        "imputer": "med"
+        "imputer": "med",
+        "cats": ["Missing", "Po", "Fa", "TA", "Gd", "Ex"]
     },
     "PavedDrive": {
         "type": "ord",
-        "imputer": "med"
+        "imputer": "most_frequent",
+        "cats": ["N", "P", "Y"]
+
     },
     "WoodDeckSF": {         # no wood deck = 0
         "type": "num",
@@ -278,11 +301,13 @@ data_info = {
     },
     "PoolQC": {             # "TA" kommt nicht vor --- NaN: (1453) eigentlich "NA"
         "type": "ord",
-        "imputer": "const"
+        "imputer": "const",
+        "cats": ["Missing", "Fa", "TA", "Gd", "Ex"]
     },
-    "Fence": {              # NaN: (1179) eigentlich "NA"
+    "Fence": {              # wirklich ord oder eher cat? --- NaN: (1179) eigentlich "NA"
         "type": "ord",
-        "imputer": "unknown"
+        "imputer": "const",
+        "cats": ["Missing", "MnWw", "GdWo", "MnPrv", "GdPrv"]
     },
     "MiscFeature": {        # "Elev" kommt nicht vor --- NaN: (1406) eigentlich "NA"
         "type": "cat",
@@ -310,6 +335,12 @@ data_info = {
     }
 }
 
+#0data_info_small = {}          # short dict manipulation test
+#for feature in data_info:
+#    data_info_small.update({feature: data_info[feature]["type"]})
+
+#print(data_info_small)
+
 def get_feature_by_type(type:str, data_info:dict=data_info):
     cat_list = []
     if type == "all":
@@ -325,4 +356,23 @@ def get_feature_by_type(type:str, data_info:dict=data_info):
 def get_imputer_strat(feature:str, data_info:dict=data_info):
     return data_info[feature]["imputer"]
 
-# "type": "num"[\r\n\s,]*"imputer": "unknown"
+
+def get_maplist_for_feature(feature:str, data_info=data_info):
+    leng = len(data_info[feature]["cats"])
+    map = []
+    for n in range(0,leng):
+            map.append(data_info[feature]["cats"][n])
+    return map
+
+def get_maplist_for_ord():
+    maplists_by_type = [
+        get_maplist_for_feature(feature)
+        for feature in get_feature_by_type("ord")
+    ]
+    return  maplists_by_type
+
+
+
+
+
+# "type": "num"[\r\n\s,]*"imputer": "unknown"       # How to seach for specific feature/imputer combos

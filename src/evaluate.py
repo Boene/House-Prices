@@ -54,3 +54,29 @@ def show_gridsearch_analysis(importance_df, test_quality):
 
     plt.show()
     return
+
+def show_target_correlations(
+    data: pd.DataFrame,
+    features: list,
+    target: str
+    ):
+
+    correlations = (
+        data[features + [target]]
+        .corr(numeric_only=True)[target]
+        .drop(target)
+        .sort_values(ascending=False)
+    )
+
+    plt.figure(figsize=(6,10))
+
+    sns.heatmap(
+        correlations.to_frame(),
+        annot=True,
+        cmap="coolwarm",
+        center=0
+    )
+
+    plt.title(f"Correlation with {target}")
+    plt.tight_layout()
+    plt.show()

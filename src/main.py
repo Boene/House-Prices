@@ -43,13 +43,33 @@ pipe = preprocessing.create_pipeline(RandomForestRegressor(), preprocessor)
 ### Configure and run GridSearch ###
 
 param_grid = {
-    "modell__max_depth": [5, 15],
-    "modell__n_estimators": [30, 100]    
+    "modell__max_depth": [5, 25, 100],
+    "modell__n_estimators": [50]    
 }
 
 grid_search = training.run_grid_search(X_train, y_train, pipe, param_grid, cv=5, scoring="r2")
 
 importance_df, grid_quality = evaluate.analyze_grid(grid_search, X_test, y_test)
 
+#evaluate.show_gridsearch_analysis(importance_df.head(20), grid_quality)
 
-evaluate.show_gridsearch_analysis(importance_df.head(10), grid_quality)
+#results = pd.DataFrame(grid_search.cv_results_)
+
+evaluate.show_target_correlations(
+    daten,
+    helper.get_feature_by_type("all"),
+    "SalePrice"
+)
+
+"""
+print(
+    results[
+        [
+            "param_modell__max_depth",
+            "param_modell__n_estimators",
+            "mean_test_score",
+            "std_test_score"
+        ]
+    ]
+)
+"""
