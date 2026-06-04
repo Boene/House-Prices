@@ -17,7 +17,7 @@ def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_
     ("encoder", OneHotEncoder(handle_unknown=enc_handle_unknown)) 
     ])
     
-    ordinal_pipeline = Pipeline([           # -1 teils problematisch, da z.B. No Fireplace besser sein kann als Poor Condition
+    ordinal_pipeline = Pipeline([
     ("imputer", SimpleImputer(strategy=ord_strategy, fill_value=ord_fill_value)),
     ("encoder", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1, categories=get_maplist_for_ord()))
     ])

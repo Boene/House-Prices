@@ -10,7 +10,7 @@ def analyze_grid(grid_search, test_features, test_target):
 
     transformed_feature_names = (                    # Features got changed by OneHot.
         grid_search                         
-        .best_estimator_                             # This addresses the optimal RF. 
+        .best_estimator_                             # This addresses the optimal estimator of our model. 
         .named_steps["preprocessor"]                 # This addresses the preprocessor, which delivers them to the pipeline.
         .get_feature_names_out()            
     )
@@ -36,7 +36,7 @@ def analyze_grid(grid_search, test_features, test_target):
 
     return importance_df, test_quality
 
-def show_gridsearch_analysis(importance_df, test_quality):
+def show_gridsearch_analysis(importance_df, test_quality):      # Prints given test quality and barplots features and their importance. I recommend .head(n) for top n features, since you else cant read anything.  
 
     print(f"Quality of test data: {test_quality}")
 
@@ -55,16 +55,16 @@ def show_gridsearch_analysis(importance_df, test_quality):
     plt.show()
     return
 
-def show_target_correlations(
+def show_target_correlations(       # Shows the correlations of numeric Features and a target, which in our case would usually be "SalePrice"
     data: pd.DataFrame,
     features: list,
     target: str
     ):
 
     correlations = (
-        data[features + [target]]
-        .corr(numeric_only=True)[target]
-        .drop(target)
+        data[features + [target]]       # Adds "SalePrice" as entry in list.
+        .corr(numeric_only=True)[target]        
+        .drop(target)                   # Removes "SalePrice" because a correlation of to itself is obv.
         .sort_values(ascending=False)
     )
 
@@ -79,4 +79,19 @@ def show_target_correlations(
 
     plt.title(f"Correlation with {target}")
     plt.tight_layout()
+    plt.show()
+
+def show_category_price(        # Plots the mean SalePrice for every value of the given Feature. Helpful to see systematic behavior i.e. in Features labeled as categorical. 
+    data,
+    feature,
+    target="SalePrice"
+):
+    (
+        data
+        .groupby(feature)[target]
+        .mean()
+        .sort_values()
+        .plot.barh()
+    )
+
     plt.show()

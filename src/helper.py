@@ -1,3 +1,21 @@
+from sklearn.model_selection import train_test_split
+import os
+import pandas as pd
+
+path = os.path.dirname(os.path.abspath(__file__))
+os.chdir(path)
+
+### Load Data ###
+
+daten = pd.read_csv("../data/train.csv")
+
+### Define new Categories ###
+
+daten["HouseAge"] = daten["YrSold"] - daten["YearBuilt"]
+daten["AgeRemod"] = daten["YrSold"] - daten["YearRemodAdd"]
+daten["TotHouseSF"] = daten["GrLivArea"] + daten["TotalBsmtSF"] 
+daten["TotFinishedSF"] = daten["TotHouseSF"] - daten["BsmtUnfSF"]
+
 data_info = {   
     "MSSubClass": {
         "type": "cat",
@@ -64,7 +82,7 @@ data_info = {
     "HouseStyle": {       # 2 neue Kategorien? -> finished/unfinished
         "type": "ord",
         "imputer": "unknown",
-        "cats": ["1.5Unf", "2.5Unf", "1Story", "1.5Fin", "SLvl", "SFoyer", "2Story", "2.5Fin"]
+        "cats": ["1.5Unf", "SFoyer", "1.5Fin", "2.5Unf", "SLvl", "1Story", "2Story", "2.5Fin"]
     },
     "OverallQual": {        # Option "1" und "2" super selten
         "type": "ord",
@@ -196,7 +214,8 @@ data_info = {
     },  
     "GrLivArea": {         # 4 leichte Ausreißer
         "type": "num",
-        "imputer": "mean"
+        "imputer": "mean",
+        "enabled": "True"
     },
     "BsmtFullBath": {      # nur einer mit 3 --- no basement <=> 0 bathrooms?
         "type": "cat",
@@ -332,16 +351,38 @@ data_info = {
     "SaleCondition": {      # Großteil "Normal" --- impute unknown?
         "type": "cat",
         "imputer": "const"
+    },
+
+    ####################################################################
+    ########################## new categories ##########################
+    ####################################################################
+
+    "HouseAge": {       # YrSold - YearBuilt
+        "type": "num",
+        "imputer": "med",
+        "enabled": "True"
+    },
+    "AgeRemod": {       # YrSold - YearRemodAdd
+        "type": "num",
+        "imputer": "med",
+        "enabled": "True"
+    },
+    "TotHouseSF": {     # GrLivArea + TotalBsmtSF 
+        "type": "num",
+        "imputer": "mean",
+        "enabled": "True"
+    },
+    "TotFinishedSF": {      # TotHouseSF - BsmtUnfSF
+        "type": "num",
+        "imputer": "mean",
+        "enabled": "True"
     }
 }
 
-#0data_info_small = {}          # short dict manipulation test
-#for feature in data_info:
-#    data_info_small.update({feature: data_info[feature]["type"]})
+#############################
+#############################
 
-#print(data_info_small)
-
-def get_feature_by_type(type:str, data_info:dict=data_info):
+def get_feature_by_type(type:str, data_info:dict=data_info):        # Gathers all Features from given category (num/ord/cat) and returns them as a list
     cat_list = []
     if type == "all":
         for key in data_info:
@@ -357,22 +398,31 @@ def get_imputer_strat(feature:str, data_info:dict=data_info):
     return data_info[feature]["imputer"]
 
 
-def get_maplist_for_feature(feature:str, data_info=data_info):
+def get_maplist_for_feature(feature:str, data_info=data_info):      # Gets the maplist for one specific Feature
     leng = len(data_info[feature]["cats"])
     map = []
     for n in range(0,leng):
             map.append(data_info[feature]["cats"][n])
     return map
 
-def get_maplist_for_ord():
+def get_maplist_for_ord():      # Forms the maplists from all single ordinal Features into the correct format for OrdinalEncoder()
     maplists_by_type = [
         get_maplist_for_feature(feature)
         for feature in get_feature_by_type("ord")
     ]
     return  maplists_by_type
 
+def load_data(daten=daten):        ### Define Features, Target, numerical, categorical ###
+    all_features = get_feature_by_type("all")
 
+    X = daten[all_features]
 
+    y = daten["SalePrice"]
 
-
-# "type": "num"[\r\n\s,]*"imputer": "unknown"       # How to seach for specific feature/imputer combos
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=0.25, 
+        random_state=42
+    )
+    return X_train, X_test, y_train, y_test 
