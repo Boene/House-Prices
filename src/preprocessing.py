@@ -6,7 +6,7 @@ from sklearn.base import ClassifierMixin, RegressorMixin, BaseEstimator
 from typing import Literal
 from helper import get_maplist_for_ord
 
-def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_strategy="constant", num_fill_value=0, cat_strategy="constant", cat_fill_value="Missing", ord_strategy="constant", ord_fill_value="Missing", enc_handle_unknown: Literal["error","ignore"] = "ignore"):
+def create_preprocessor(numerical:list, categorical:list, ordinal: list, /, num_strategy="median", num_fill_value="0", cat_strategy="constant", cat_fill_value="Missing", ord_strategy="constant", ord_fill_value="Missing", enc_handle_unknown: Literal["error","ignore"] = "ignore"):
     numerical_pipeline = Pipeline([
     ("imputer", SimpleImputer(strategy=num_strategy, fill_value=num_fill_value)),
     ("scaler", StandardScaler())
